@@ -31,13 +31,13 @@ def blog():
     blog_id = request.args.get('id')
 
     if blog_id == None:
-        posts = blog.query.all()
+        posts = Blog.query.all()
         return render_template('blog.html', posts=posts, title='Build-A-Blog')
     else:
-        post = blog.query.get(blog_id)
+        post = Blog.query.get(blog_id)
         return render_template('entry.html', post=post, title='Blog Entry')
 
-@app.route('/newpost')
+@app.route('/newpost', methods=['GET', 'POST'])
 def newpost():
     if request.method == 'POST':
         blog_title = request.form['blog-title']
@@ -51,7 +51,7 @@ def newpost():
             body_error = 'Please enter a blog entry'
 
         if not title_error and not body_error:
-            newentry = blog(blog_title, blog_body)
+            newentry = Blog(blog_title, blog_body)
             db.session.add(newentry)
             db.session.commit()
             return redirect('/blog?=id={}'.format(newentry.id))
