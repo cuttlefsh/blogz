@@ -2,20 +2,14 @@
 
 {% block content %}
 
-    <h1>Build A Blog</h1>
-
-    {% if posts|length == 0 %}
-    <h3>No Blog Posts Yet.</h3>
-    {% else %}
-
-    {% for post in posts %}
-
-    <a href="/blog?id={{post.id}}"><h2>{{post.title}}</h2></a>
-    <p>{{post.body}}</p>
+    <h1>Blog Posts</h1>
     <hr>
 
-    {% endfor %}
-
-    {% endif %}
+        {% for post in posts %}
+        <a href="/blog?id={{post.id}}"><p><h2>{{post.title}}</h2></p></a>
+        <p>{{post.body}}</p>
+        <p>Posted on: {{post.pub_date}}</p>
+        <p>Posted by: <a href="/blog?userid={{post.owner_id}}">{{post.owner.username}}</a></p>
+        {% endfor %}
 
 {% endblock %}
